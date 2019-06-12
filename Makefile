@@ -10,8 +10,16 @@ CC=gcc -std=c99
 FLAGS=-Wall -fdata-sections -ffunction-sections -fmax-errors=5 -Os
 # Additional parameters used for linking whole programs
 WHOLE=-s -fwhole-program -static
+IMAGE=gba-mus-ripper
+TAG?=$(shell git rev-parse HEAD)
+
+.PHONY: all image
 
 all: $(shell mkdir build) $(shell mkdir out) out/sappy_detector out/song_ripper out/sound_font_ripper out/gba_mus_ripper
+
+image:
+	docker build --rm -t $(IMAGE) .
+	docker tag $(IMAGE) $(IMAGE):$(TAG)
 
 out/sappy_detector: sappy_detector.c
 	$(CC) $(FLAGS) $(WHOLE) sappy_detector.c -o out/sappy_detector
