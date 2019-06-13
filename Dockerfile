@@ -10,4 +10,8 @@ RUN make -C /gba-mus-ripper
 
 FROM ubuntu
 
+ENV GOLDENSUN_SYNTH_PATH /goldensun_synth.raw
+
+COPY ./goldensun_synth.raw $GOLDENSUN_SYNTH_PATH
+
 COPY --from=builder /gba-mus-ripper/out/* /usr/local/bin/

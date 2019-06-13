@@ -581,7 +581,11 @@ int main(const int argc, char *const argv[])
 		puts("psg_data.raw file not found! PSG Instruments can't be dumped.");
 
 	// Attempt to access goldensun_synth file
-	goldensun_synth = fopen((prg_prefix + "goldensun_synth.raw").c_str(), "rb");
+        const char* goldensun_synth_path = std::getenv("GOLDENSUN_SYNTH_PATH");
+        if(!goldensun_synth_path)
+        	goldensun_synth_path = (prg_prefix + "goldensun_synth.raw").c_str();
+
+	goldensun_synth = fopen(goldensun_synth_path, "rb");
 	if (!goldensun_synth)
 		puts("goldensun_synth.raw file not found! Golden Sun's synth instruments can't be dumped.");
 
